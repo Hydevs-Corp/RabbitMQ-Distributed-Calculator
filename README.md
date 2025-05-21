@@ -216,5 +216,5 @@ docker compose down -v
 Repo créé pour le cours de RabbitMQ & KAFKA à EFREI Paris
 
 -   Louis Réville
--   Sebastien Branly
+-   Sébastien Branly
 -   Guillaume Maugin
