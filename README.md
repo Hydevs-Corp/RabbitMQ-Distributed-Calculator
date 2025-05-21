@@ -2,15 +2,17 @@
 
 Ce projet implémente un système de calculatrice distribuée à l'aide de RabbitMQ comme message broker. Le système peut effectuer des opérations mathématiques (addition, soustraction, multiplication et division) de manière asynchrone et distribuer la charge entre plusieurs workers.
 
+<img src="https://github.com/Hydevs-Corp/RabbitMQ-Distributed-Calculator/blob/main/assets/demo.gif?raw=true" width="600" alt="terminals">
+
 ## Architecture
 
 Le projet est organisé selon une architecture orientée messages avec les composants suivants:
 
-- **Workers** : Services qui écoutent les files de messages pour effectuer des opérations mathématiques spécifiques
-- **Producer** : Service qui génère des opérations aléatoires pour les workers
-- **Client interactif** : Interface de ligne de commande pour soumettre des calculs
-- **Serveur web** : API REST et interface utilisateur web pour soumettre des calculs
-- **RabbitMQ** : Broker de messages qui gère la communication entre les composants
+-   **Workers** : Services qui écoutent les files de messages pour effectuer des opérations mathématiques spécifiques
+-   **Producer** : Service qui génère des opérations aléatoires pour les workers
+-   **Client interactif** : Interface de ligne de commande pour soumettre des calculs
+-   **Serveur web** : API REST et interface utilisateur web pour soumettre des calculs
+-   **RabbitMQ** : Broker de messages qui gère la communication entre les composants
 
 ### Flux de messages
 
@@ -21,9 +23,9 @@ Le projet est organisé selon une architecture orientée messages avec les compo
 
 ## Prérequis
 
-- Docker et Docker Compose
-- Node.js (>=14)
-- npm
+-   Docker et Docker Compose
+-   Node.js (>=14)
+-   npm
 
 ## Installation
 
@@ -85,8 +87,8 @@ npm run worker [ID] [OPERATION]
 
 Où:
 
-- `ID` est un identifiant pour le worker (par défaut: 1)
-- `OPERATION` est l'une des opérations suivantes: add, sub, mul, div (par défaut: add)
+-   `ID` est un identifiant pour le worker (par défaut: 1)
+-   `OPERATION` est l'une des opérations suivantes: add, sub, mul, div (par défaut: add)
 
 Exemple:
 
@@ -96,18 +98,18 @@ npm run worker 2 mul
 
 ## Fonctionnement technique
 
-- Le système utilise des échanges directs dans RabbitMQ
-- Les opérations sont distribuées aux workers basés sur la routing key
-- Les messages sont persistants pour garantir leur traitement
-- Les workers simulent un temps de traitement aléatoire (5-6 secondes)
-- Les résultats sont renvoyés de manière asynchrone via des files de réponse dédiées
+-   Le système utilise des échanges directs dans RabbitMQ
+-   Les opérations sont distribuées aux workers basés sur la routing key
+-   Les messages sont persistants pour garantir leur traitement
+-   Les workers simulent un temps de traitement aléatoire (5-6 secondes)
+-   Les résultats sont renvoyés de manière asynchrone via des files de réponse dédiées
 
 ## Conteneurisation
 
 Le projet peut être déployé avec Docker à l'aide des Dockerfiles fournis:
 
-- `Dockerfile.webserver` pour le serveur web
-- `Dockerfile.workers` pour les workers
+-   `Dockerfile.webserver` pour le serveur web
+-   `Dockerfile.workers` pour les workers
 
 ## Structure du projet
 
@@ -144,6 +146,6 @@ docker-compose down
 
 Repo créé pour le cours de RabbitMQ & KAFKA à EFREI Paris
 
-- Louis Réville
-- Sebastien Branly
-- Guillaume Maugin
+-   Louis Réville
+-   Sebastien Branly
+-   Guillaume Maugin
