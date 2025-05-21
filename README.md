@@ -2,6 +2,10 @@
 
 Ce projet implémente un système de calculatrice distribuée à l'aide de RabbitMQ comme message broker. Le système peut effectuer des opérations mathématiques (addition, soustraction, multiplication et division) de manière asynchrone et distribuer la charge entre plusieurs workers.
 
+## Démo en ligne
+
+Essayez la calculatrice distribuée ici : [https://calculator.louisrvl.fr/](https://calculator.louisrvl.fr/)
+
 <img src="https://github.com/Hydevs-Corp/RabbitMQ-Distributed-Calculator/blob/main/assets/demo.gif?raw=true" width="600" alt="Demo Terminals">
 
 ![Demo Front](https://github.com/Hydevs-Corp/RabbitMQ-Distributed-Calculator/blob/main/assets/demo_front.png?raw=true)
