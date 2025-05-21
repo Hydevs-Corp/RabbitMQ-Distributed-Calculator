@@ -10,11 +10,11 @@ Ce projet implémente un système de calculatrice distribuée à l'aide de Rabbi
 
 Le projet est organisé selon une architecture orientée messages avec les composants suivants:
 
-- **Workers** : Services qui écoutent les files de messages pour effectuer des opérations mathématiques spécifiques
-- **Producer** : Service qui génère des opérations aléatoires pour les workers
-- **Client interactif** : Interface de ligne de commande pour soumettre des calculs
-- **Serveur web** : API REST et interface utilisateur web pour soumettre des calculs
-- **RabbitMQ** : Broker de messages qui gère la communication entre les composants
+-   **Workers** : Services qui écoutent les files de messages pour effectuer des opérations mathématiques spécifiques
+-   **Producer** : Service qui génère des opérations aléatoires pour les workers
+-   **Client interactif** : Interface de ligne de commande pour soumettre des calculs
+-   **Serveur web** : API REST et interface utilisateur web pour soumettre des calculs
+-   **RabbitMQ** : Broker de messages qui gère la communication entre les composants
 
 ![Mermaid Schema](https://github.com/Hydevs-Corp/RabbitMQ-Distributed-Calculator/blob/main/assets/mermaid_diagram.png?raw=true)
 
@@ -27,9 +27,9 @@ Le projet est organisé selon une architecture orientée messages avec les compo
 
 ## Prérequis
 
-- Docker et Docker Compose
-- Node.js (>=20) pour le développement local
-- npm pour le développement local
+-   Docker et Docker Compose
+-   Node.js (>=20) pour le développement local
+-   npm pour le développement local
 
 ## Installation
 
@@ -54,13 +54,13 @@ docker-compose up -d
 
 Cette commande va:
 
-- Démarrer un conteneur RabbitMQ avec l'interface d'administration
-- Construire et démarrer le serveur web sur le port 8025
-- Construire et démarrer une flotte de workers
+-   Démarrer un conteneur RabbitMQ avec l'interface d'administration
+-   Construire et démarrer le serveur web sur le port 8025
+-   Construire et démarrer une flotte de workers
 
 4. Accéder à l'application:
-   - Interface Web: http://localhost:8025
-   - Interface d'administration RabbitMQ: http://localhost:15672 (utilisateur et mot de passe définis dans .env)
+    - Interface Web: http://localhost:8025
+    - Interface d'administration RabbitMQ: http://localhost:15672 (utilisateur et mot de passe définis dans .env)
 
 ### Développement local (sans Docker)
 
@@ -81,12 +81,12 @@ npm install
 ### Démarrer tous les composants
 
 ```sh
-npm run start:all
+npm run start
 ```
 
-> - **Workers** : Services qui écoutent les files de messages pour effectuer des opérations mathématiques > spécifiques
-> - **Producer** : Service qui génère des opérations aléatoires pour les workers
-> - **Client Résultat** : Interface de ligne de commande pour soumettre des calculs
+> -   **Workers** : Services qui écoutent les files de messages pour effectuer des opérations mathématiques > spécifiques
+> -   **Producer** : Service qui génère des opérations aléatoires pour les workers
+> -   **Client Résultat** : Interface de ligne de commande pour soumettre des calculs
 
 ### Ou lancer chaques composants individuelement :
 
@@ -126,11 +126,11 @@ Puis entrez des opérations comme `10 + 5`, `20 * 3`, etc.
 
 ## Fonctionnement technique
 
-- Le système utilise des échanges directs dans RabbitMQ
-- Les opérations sont distribuées aux workers basés sur la routing key
-- Les messages sont persistants pour garantir leur traitement
-- Les workers simulent un temps de traitement aléatoire (5-15 secondes)
-- Les résultats sont renvoyés de manière asynchrone via des files de réponse dédiées
+-   Le système utilise des échanges directs dans RabbitMQ
+-   Les opérations sont distribuées aux workers basés sur la routing key
+-   Les messages sont persistants pour garantir leur traitement
+-   Les workers simulent un temps de traitement aléatoire (5-15 secondes)
+-   Les résultats sont renvoyés de manière asynchrone via des files de réponse dédiées
 
 ## Conteneurisation
 
@@ -138,34 +138,34 @@ Le projet est conteneurisé avec Docker pour faciliter le déploiement:
 
 ### Images Docker
 
-- `Dockerfile.webserver`: Image pour le serveur web
+-   `Dockerfile.webserver`: Image pour le serveur web
 
-  - Basée sur Node.js 22 Alpine
-  - Expose le port 8025
-  - Démarre le serveur web (server.js)
+    -   Basée sur Node.js 22 Alpine
+    -   Expose le port 8025
+    -   Démarre le serveur web (server.js)
 
-- `Dockerfile.workers`: Image pour les workers
-  - Basée sur Node.js 22 Alpine
-  - Démarre une flotte de workers (start_workers.js)
+-   `Dockerfile.workers`: Image pour les workers
+    -   Basée sur Node.js 22 Alpine
+    -   Démarre une flotte de workers (start_workers.js)
 
 ### Services Docker Compose
 
-- **rabbitmq**: Broker de messages
+-   **rabbitmq**: Broker de messages
 
-  - Ports: 5672 (AMQP), 15672 (Interface d'administration)
-  - Utilisateur/mot de passe configurables via variables d'environnement
+    -   Ports: 5672 (AMQP), 15672 (Interface d'administration)
+    -   Utilisateur/mot de passe configurables via variables d'environnement
 
-- **webserver**: Interface utilisateur et API REST
+-   **webserver**: Interface utilisateur et API REST
 
-  - Construit à partir de Dockerfile.webserver
-  - Port exposé: 8025
-  - Dépend du service rabbitmq
-  - Redémarrage automatique en cas de problème
+    -   Construit à partir de Dockerfile.webserver
+    -   Port exposé: 8025
+    -   Dépend du service rabbitmq
+    -   Redémarrage automatique en cas de problème
 
-- **workers**: Flotte de workers pour traiter les calculs
-  - Construit à partir de Dockerfile.workers
-  - Dépend du service rabbitmq
-  - Redémarrage automatique en cas de problème
+-   **workers**: Flotte de workers pour traiter les calculs
+    -   Construit à partir de Dockerfile.workers
+    -   Dépend du service rabbitmq
+    -   Redémarrage automatique en cas de problème
 
 ## Structure du projet
 
@@ -208,6 +208,6 @@ docker-compose down -v
 
 Repo créé pour le cours de RabbitMQ & KAFKA à EFREI Paris
 
-- Louis Réville
-- Sebastien Branly
-- Guillaume Maugin
+-   Louis Réville
+-   Sebastien Branly
+-   Guillaume Maugin
