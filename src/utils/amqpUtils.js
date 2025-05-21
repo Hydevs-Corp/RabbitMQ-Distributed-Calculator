@@ -8,7 +8,10 @@ export async function connectAndChannel(url = AMQP_URL) {
         const ch = await conn.createChannel();
         return { conn, ch };
     } catch (error) {
-        console.error("Error connecting to RabbitMQ:", error);
+        console.error(
+            "Error connecting to RabbitMQ (" + AMQP_URL + ") :",
+            error
+        );
         process.exit(1);
     }
 }
