@@ -49,7 +49,7 @@ WEBSERVER_PORT=8025
 3. Démarrer l'application complète avec Docker Compose :
 
 ```sh
-docker-compose up -d
+docker compose up -d
 ```
 
 Cette commande va:
@@ -67,7 +67,7 @@ Cette commande va:
 1. Démarrer RabbitMQ avec Docker :
 
 ```sh
-docker-compose up -d rabbitmq
+docker compose up -d rabbitmq
 ```
 
 2. Installer les dépendances Node.js :
@@ -195,13 +195,13 @@ Le projet est conteneurisé avec Docker pour faciliter le déploiement:
 Pour arrêter RabbitMQ et les conteneurs Docker:
 
 ```sh
-docker-compose down
+docker compose down
 ```
 
 Pour supprimer également les volumes:
 
 ```sh
-docker-compose down -v
+docker compose down -v
 ```
 
 ## Auteur
