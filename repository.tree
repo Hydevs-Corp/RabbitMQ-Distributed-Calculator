@@ -1,0 +1,29 @@
+.
+├── docker-compose.yml
+├── Dockerfile.webserver
+├── Dockerfile.workers
+├── exercice_rabbitmq.pdf
+├── graph.md
+├── package.json
+├── package-lock.json
+├── public
+│   ├── index.html
+│   └── styles.css
+├── README.md
+├── repository.tree
+└── src
+    ├── __dirname.js
+    ├── __filename.js
+    ├── interactive.js
+    ├── producer.js
+    ├── result_client.js
+    ├── server.js
+    ├── start_all.js
+    ├── start_workers.js
+    ├── utils
+    │   ├── amqpUtils.js
+    │   ├── logger.js
+    │   └── runScript.js
+    └── worker.js
+
+4 directories, 23 files

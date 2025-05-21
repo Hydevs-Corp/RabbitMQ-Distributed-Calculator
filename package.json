@@ -1,0 +1,22 @@
+{
+    "name": "rabbitmq-distributed-calcalculator",
+    "version": "1.0.0",
+    "description": "Démo Node.js avec RabbitMQ : producteur et consommateur de messages.",
+    "main": "src/producer.js",
+    "type": "module",
+    "scripts": {
+        "start": "node src/start_all.js",
+        "start:producer": "node src/producer.js",
+        "start:workers": "node src/start_workers.js",
+        "start:webserver": "node src/server.js",
+        "start:results": "node src/result_client.js",
+        "start:interactive": "node src/interactive.js"
+    },
+    "dependencies": {
+        "@hono/node-server": "^1.14.2",
+        "amqplib": "^0.10.3",
+        "chalk": "^5.4.1",
+        "cli-spinners": "^3.2.0",
+        "hono": "^4.7.10"
+    }
+}

@@ -1,0 +1,30 @@
+services:
+    rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+
+    webserver:
+        build:
+            context: .
+            dockerfile: Dockerfile.webserver
+        ports:
+            - "8025:8025"
+        depends_on:
+            - rabbitmq
+        restart: always
+        env_file:
+            - .env
+    workers:
+        build:
+            context: .
+            dockerfile: Dockerfile.workers
+        depends_on:
+            - rabbitmq
+        restart: always
+        env_file:
+            - .env

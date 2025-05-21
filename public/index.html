@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Calculator</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="calculator">
+            <form id="calc-form" action="/calculate" method="post">
+                <input
+                    type="text"
+                    class="calculator-screen"
+                    name="screen"
+                    id="result"
+                    readonly
+                />
+
+                <div class="calculator-keys">
+                    <button
+                        type="button"
+                        value="7"
+                        onclick="appendToScreen('7')"
+                    >
+                        7
+                    </button>
+                    <button
+                        type="button"
+                        value="8"
+                        onclick="appendToScreen('8')"
+                    >
+                        8
+                    </button>
+                    <button
+                        type="button"
+                        value="9"
+                        onclick="appendToScreen('9')"
+                    >
+                        9
+                    </button>
+                    <button
+                        type="button"
+                        class="operator"
+                        value="/"
+                        onclick="appendToScreen('÷')"
+                    >
+                        &divide;
+                    </button>
+
+                    <button
+                        type="button"
+                        value="4"
+                        onclick="appendToScreen('4')"
+                    >
+                        4
+                    </button>
+                    <button
+                        type="button"
+                        value="5"
+                        onclick="appendToScreen('5')"
+                    >
+                        5
+                    </button>
+                    <button
+                        type="button"
+                        value="6"
+                        onclick="appendToScreen('6')"
+                    >
+                        6
+                    </button>
+                    <button
+                        type="button"
+                        class="operator"
+                        value="*"
+                        onclick="appendToScreen('×')"
+                    >
+                        &times;
+                    </button>
+
+                    <button
+                        type="button"
+                        value="1"
+                        onclick="appendToScreen('1')"
+                    >
+                        1
+                    </button>
+                    <button
+                        type="button"
+                        value="2"
+                        onclick="appendToScreen('2')"
+                    >
+                        2
+                    </button>
+                    <button
+                        type="button"
+                        value="3"
+                        onclick="appendToScreen('3')"
+                    >
+                        3
+                    </button>
+                    <button
+                        type="button"
+                        class="operator"
+                        value="-"
+                        onclick="appendToScreen('-')"
+                    >
+                        -
+                    </button>
+
+                    <button
+                        type="button"
+                        class="all-clear"
+                        value="all-clear"
+                        onclick="clearScreen()"
+                    >
+                        AC
+                    </button>
+                    <button
+                        type="button"
+                        value="0"
+                        onclick="appendToScreen('0')"
+                    >
+                        0
+                    </button>
+                    <button
+                        type="button"
+                        class="operator"
+                        value="all-operators"
+                        onclick="appendAllOperators()"
+                    >
+                        <div>+ -</div>
+                        <div>* /</div>
+                    </button>
+                    <button
+                        type="button"
+                        class="operator"
+                        value="+"
+                        onclick="appendToScreen('+')"
+                    >
+                        +
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="equal-sign"
+                        value="="
+                        id="submit-btn"
+                    >
+                        =
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div id="results-container">
+            <div
+                id="loading"
+                style="
+                    display: none;
+                    margin: 10px 0;
+                    color: #0074d9;
+                    font-weight: bold;
+                "
+            ></div>
+            <div id="results"></div>
+        </div>
+
+        <script>
+            function uuidv4() {
+                return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(
+                    /[018]/g,
+                    (c) =>
+                        (
+                            c ^
+                            (crypto.getRandomValues(new Uint8Array(1))[0] &
+                                (15 >> (c / 4)))
+                        ).toString(16)
+                );
+            }
+
+            function appendToScreen(value) {
+                document.getElementById("result").value += value;
+            }
+
+            function clearScreen() {
+                document.getElementById("result").value = "";
+            }
+
+            function appendAllOperators() {
+                document.getElementById("result").value += " (+-×÷) ";
+            }
+
+            function setLoading(expr) {
+                const loading = document.getElementById("loading");
+                const submitBtn = document.getElementById("submit-btn");
+                if (expr) {
+                    loading.style.display = "";
+                    loading.innerHTML = `<span class="loader">⏳</span> Calculating: <b>${expr}</b>`;
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                    }
+                } else {
+                    loading.style.display = "none";
+                    loading.innerHTML = "";
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                    }
+                }
+            }
+
+            document
+                .getElementById("calc-form")
+                .addEventListener("submit", async function (e) {
+                    e.preventDefault();
+                    let screen = document.getElementById("result").value;
+                    if (!screen.trim()) return;
+
+                    setLoading(screen);
+                    screen = screen
+                        .replace(/×/g, "*")
+                        .replace(/÷/g, "/")
+                        .replace(/\(.*?\)/g, (match) =>
+                            match.replace(/\(\+-\*\/\)/g, "a")
+                        );
+                    document.getElementById("result").value = "";
+                    const uuid = uuidv4();
+                    const res = await fetch("/calculate", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: new URLSearchParams({ screen, uuid }),
+                    });
+                    const data = await res.json();
+                    if (data.error) {
+                        setLoading(null);
+                        showResult("Error: " + data.error, true);
+                    } else {
+                        if (data.all) {
+                            startStream(uuid, screen, true);
+                        } else {
+                            startStream(uuid, screen, false);
+                        }
+                    }
+                });
+
+            function showResult(msg, error) {
+                setLoading(null);
+                const el = document.getElementById("results");
+                el.innerHTML =
+                    `<div style="color:${
+                        error ? "red" : "#333"
+                    }">${msg}</div>` + el.innerHTML;
+            }
+
+            function startStream(uuid, expr, isAll) {
+                if (window.evtSource) window.evtSource.close();
+                window.evtSource = new EventSource(
+                    "/calculate/stream?uuid=" + uuid
+                );
+                if (isAll) {
+                    let results = [];
+                    const opMap = {
+                        add: "+",
+                        sub: "-",
+                        mul: "×",
+                        div: "÷",
+                    };
+                    window.evtSource.onmessage = function (event) {
+                        try {
+                            const res = JSON.parse(event.data);
+                            results.push(res);
+                            if (results.length === 4) {
+                                setLoading(null);
+
+                                const opOrder = ["add", "sub", "mul", "div"];
+                                results.sort(
+                                    (a, b) =>
+                                        opOrder.indexOf(a.op) -
+                                        opOrder.indexOf(b.op)
+                                );
+                                let msg = results
+                                    .map(
+                                        (res) =>
+                                            `${res.n1} ${
+                                                opMap[res.op] || res.op
+                                            } ${res.n2} = <b>${res.result}</b>`
+                                    )
+                                    .join("<br>");
+                                showResult(msg);
+                                window.evtSource.close();
+                            }
+                        } catch (e) {
+                            setLoading(null);
+                            window.evtSource.close();
+                        }
+                    };
+                    window.evtSource.onerror = function () {
+                        setLoading(null);
+                        window.evtSource.close();
+                    };
+                } else {
+                    window.evtSource.onmessage = function (event) {
+                        try {
+                            const res = JSON.parse(event.data);
+                            setLoading(null);
+
+                            const opMap = {
+                                add: "+",
+                                sub: "-",
+                                mul: "×",
+                                div: "÷",
+                            };
+                            const opSymbol = opMap[res.op] || res.op;
+                            showResult(
+                                `${res.n1} ${opSymbol} ${res.n2} = <b>${res.result}</b>`
+                            );
+                            window.evtSource.close();
+                        } catch (e) {
+                            setLoading(null);
+                            window.evtSource.close();
+                        }
+                    };
+                    window.evtSource.onerror = function () {
+                        setLoading(null);
+                        window.evtSource.close();
+                    };
+                }
+            }
+        </script>
+    </body>
+</html>
