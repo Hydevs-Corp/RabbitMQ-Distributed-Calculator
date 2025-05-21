@@ -1,6 +1,15 @@
+import "dotenv/config";
 import amqp from "amqplib";
 
-const AMQP_URL = process.env.AMQP_URL || "amqp://user:password@localhost:5672";
+const ENVIRONMENT = process.env.NODE_ENV || "local";
+let AMQP_URL =
+    ENVIRONMENT === "prod" ? process.env.AMQP_URL : process.env.AMQP_URL_LOCAL;
+
+if (!AMQP_URL) {
+    console.error(
+        "AMQP_URL is not set in the environment variables. Please set it."
+    );
+}
 
 export async function connectAndChannel(url = AMQP_URL) {
     try {
@@ -8,10 +17,7 @@ export async function connectAndChannel(url = AMQP_URL) {
         const ch = await conn.createChannel();
         return { conn, ch };
     } catch (error) {
-        console.error(
-            "Error connecting to RabbitMQ (" + AMQP_URL + ") :",
-            error
-        );
+        console.error("Error connecting to RabbitMQ (" + url + ") :", error);
         process.exit(1);
     }
 }

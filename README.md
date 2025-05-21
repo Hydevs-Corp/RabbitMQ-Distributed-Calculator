@@ -38,12 +38,15 @@ Le projet est organisé selon une architecture orientée messages avec les compo
 1. Cloner le dépôt
 
 2. Créer un fichier `.env` à la racine du projet avec les variables suivantes :
+   (Un .env d'example est fourni afin de lancer rapidement le projet)
 
 ```
+WEBSERVER_PORT=8025
 RABBITMQ_USER=user
 RABBITMQ_PASS=password
-AMQP_URL=amqp://user:password@rabbitmq:5672
-WEBSERVER_PORT=8025
+
+AMQP_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
+AMQP_URL_LOCAL=amqp://user:password@localhost:5672
 ```
 
 3. Démarrer l'application complète avec Docker Compose :

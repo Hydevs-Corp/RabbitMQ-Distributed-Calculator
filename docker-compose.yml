@@ -19,6 +19,8 @@ services:
         restart: always
         env_file:
             - .env
+        environment:
+            - NODE_ENV=prod
     workers:
         build:
             context: .
@@ -28,3 +30,5 @@ services:
         restart: always
         env_file:
             - .env
+        environment:
+            - NODE_ENV=prod
