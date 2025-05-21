@@ -16,6 +16,8 @@ Le projet est organisé selon une architecture orientée messages avec les compo
 -   **Serveur web** : API REST et interface utilisateur web pour soumettre des calculs
 -   **RabbitMQ** : Broker de messages qui gère la communication entre les composants
 
+![Mermaid Schema](https://github.com/Hydevs-Corp/RabbitMQ-Distributed-Calculator/blob/main/assets/mermaid_diagram.png?raw=true)
+
 ### Flux de messages
 
 1. Un client (producer, interactive, ou web) envoie une opération à calculer
@@ -26,7 +28,7 @@ Le projet est organisé selon une architecture orientée messages avec les compo
 ## Prérequis
 
 -   Docker et Docker Compose
--   Node.js (>=14)
+-   Node.js (>=20)
 -   npm
 
 ## Installation
